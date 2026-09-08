@@ -1,0 +1,32 @@
+# RTL files
+/rtl/
+/rtl_local/
+/vendor_rtl/
+
+Bit_Manipulation_Unit.sv
+rtl_defines.sv
+rtl_lib.sv
+rtl_pdef.sv
+rtl_param.sv
+rtl_def.sv
+
+# Xcelium generated files
+xcelium.d/
+INCA_libs/
+waves.shm/
+*.shm
+*.trn
+*.dsn
+
+# Coverage
+cov_work/
+
+# Logs and temporary files
+*.log
+*.key
+*.history
+*.tmp
+
+# Editor files
+.vscode/
+.idea/

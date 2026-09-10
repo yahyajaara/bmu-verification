@@ -69,7 +69,7 @@ module bmu_tb_top;
             bmu_if
         );
 
-        run_test("bmu_day2_sanity_test");
+        run_test();
 
     end
 

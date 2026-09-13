@@ -57,16 +57,16 @@ module bmu_tb_top;
 
         uvm_config_db #(virtual bmu_interface.drv)::set(
             null,
-            "uvm_test_top.*",
+            "uvm_test_top.env.agent.driver",
             "vif",
-            bmu_if
+            bmu_if.drv
         );
 
         uvm_config_db #(virtual bmu_interface.mon)::set(
             null,
-            "uvm_test_top.*",
+            "uvm_test_top.env.agent.monitor",
             "vif",
-            bmu_if
+            bmu_if.mon
         );
 
         run_test();

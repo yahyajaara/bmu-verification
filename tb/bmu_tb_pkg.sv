@@ -16,18 +16,25 @@ package bmu_tb_pkg;
     `include "agent/bmu_sequencer.sv"
     `include "agent/bmu_driver.sv"
     `include "agent/bmu_monitor.sv"
+    `include "agent/bmu_agent.sv"
+
 
 
 
      // Checking / Coverage
+    `include "scoreboard/bmu_reference_model.sv"
+    `include "scoreboard/bmu_scoreboard.sv"
 
 
 
      // Environment
+    `include "env/bmu_environment.sv"
+
 
 
 
      // Tests
+    `include "tests/bmu_base_test.sv"
 
   
 endpackage : bmu_tb_pkg

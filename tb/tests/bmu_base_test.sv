@@ -35,12 +35,27 @@ class bmu_base_test extends uvm_test;
         // Keep simulation alive while sequence is running
         phase.raise_objection(this);
 
+        `uvm_info(
+            "TEST_START",
+            $sformatf(
+                {
+                    "\n============================================================",
+                    "\n                 STARTING UVM TEST",
+                    "\n============================================================",
+                    "\n TEST NAME : %s",
+                    "\n============================================================\n"
+                },
+                get_type_name()
+            ),
+            UVM_NONE
+        )
+
         seq = bmu_base_sequence::type_id::create("seq");
 
         seq.start(env.agent.sequencer);
 
         // Allow last transaction to complete
-        #20;
+        #10;
 
         phase.drop_objection(this);
 

@@ -45,10 +45,8 @@ module bmu_tb_top;
         bmu_if.rst_l = 1'b0;
 
         // Keep reset active across clock edges
-        repeat (2) @(posedge clk);
+        @(posedge clk);
 
-        // Deassert reset safely away from posedge
-        @(negedge clk);
         bmu_if.rst_l = 1'b1;
     end
 

@@ -107,7 +107,7 @@ class bmu_scoreboard extends uvm_scoreboard;
                     $sformatf(
                         {
                             "\n==========================================",
-                            "\n             BMU FAIL",
+                            "\n  BMU FAIL",
                             "\n==========================================",
                             "\nA               = 0x%08h",
                             "\nB               = 0x%08h",
@@ -123,7 +123,7 @@ class bmu_scoreboard extends uvm_scoreboard;
                             "\nExpected Error  = %0b",
                             "\n",
                             "\nSimulation Time = %0t",
-                            "\n=========================================="
+                            "\n==========================================\n"
                         },
 
                         packet.a_in,
@@ -154,12 +154,12 @@ class bmu_scoreboard extends uvm_scoreboard;
                     $sformatf(
                         {
                             "\n------------------------------------------",
-                            "\n             BMU PASS",
+                            "\n  BMU PASS",
                             "\n------------------------------------------",
                             "\nA               = 0x%08h",
                             "\nB               = 0x%08h",
                             "\nValid           = %0b",
-                            "\nAP              = %p",
+                            "\nAP ACTIVE       = %s",
                             "\nCSR_REN         = %0b",
                             "\nCSR_RDDATA      = 0x%08h",
                             "\n",
@@ -168,13 +168,13 @@ class bmu_scoreboard extends uvm_scoreboard;
                             "\n",
                             "\nActual Error    = %0b",
                             "\nExpected Error  = %0b",
-                            "\n------------------------------------------"
+                            "\n------------------------------------------\n"
                         },
 
                         packet.a_in,
                         packet.b_in,
                         packet.valid_in,
-                        packet.ap,
+                        get_active_ap(packet.ap),
                         packet.csr_ren_in,
                         packet.csr_rddata_in,
 
@@ -193,5 +193,63 @@ class bmu_scoreboard extends uvm_scoreboard;
         end
 
     endtask
+
+
+
+
+    // ***********************************************
+    // Active AP
+    // ***********************************************
+    function string get_active_ap(rtl_alu_pkt_t ap);
+
+        string active_ap;
+
+        active_ap = "";
+
+
+        // Logical operations
+        if (ap.lor)       active_ap = {active_ap, "lor "};
+        if (ap.lxor)      active_ap = {active_ap, "lxor "};
+        if (ap.zbb)       active_ap = {active_ap, "zbb "};
+
+
+        // Shift / Mask operations
+        if (ap.srl)       active_ap = {active_ap, "srl "};
+        if (ap.sra)       active_ap = {active_ap, "sra "};
+        if (ap.ror)       active_ap = {active_ap, "ror "};
+        if (ap.binv)      active_ap = {active_ap, "binv "};
+
+        if (ap.sh2add)    active_ap = {active_ap, "sh2add "};
+        if (ap.zba)       active_ap = {active_ap, "zba "};
+
+
+        // Arithmetic / Compare operations
+        if (ap.sub)       active_ap = {active_ap, "sub "};
+        if (ap.slt)       active_ap = {active_ap, "slt "};
+        if (ap.unsign)    active_ap = {active_ap, "unsign "};
+
+
+        // Bit manipulation operations
+        if (ap.ctz)       active_ap = {active_ap, "ctz "};
+        if (ap.cpop)      active_ap = {active_ap, "cpop "};
+        if (ap.siext_b)   active_ap = {active_ap, "siext_b "};
+        if (ap.max)       active_ap = {active_ap, "max "};
+        if (ap.pack)      active_ap = {active_ap, "pack "};
+        if (ap.grev)      active_ap = {active_ap, "grev "};
+
+
+        // CSR Write
+        if (ap.csr_write) active_ap = {active_ap, "csr_write "};
+        if (ap.csr_imm)   active_ap = {active_ap, "csr_imm "};
+
+
+        // No AP control active
+        if (active_ap == "")
+            active_ap = "NONE";
+
+        return active_ap;
+
+    endfunction
+
 
 endclass

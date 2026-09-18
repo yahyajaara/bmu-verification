@@ -144,6 +144,11 @@ slt:
 	$(MAKE) run TEST=bmu_slt_test
 
 
+# SLTU Test (make sltu)
+sltu:
+	$(MAKE) run TEST=bmu_sltu_test
+
+
 # ============================================================
 
 
@@ -157,4 +162,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu clean

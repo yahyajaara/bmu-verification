@@ -134,6 +134,11 @@ sh2add:
 	$(MAKE) run TEST=bmu_sh2add_test
 
 
+# SUB Test (make sub)
+sub:
+	$(MAKE) run TEST=bmu_sub_test
+
+
 # ============================================================
 
 
@@ -147,4 +152,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub clean

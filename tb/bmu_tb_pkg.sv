@@ -22,6 +22,7 @@ package bmu_tb_pkg;
      `include "sequences/bmu_binv_sequence.sv"
      `include "sequences/bmu_sh2add_sequence.sv"
      `include "sequences/bmu_sub_sequence.sv"
+     `include "sequences/bmu_slt_sequence.sv"
 
 
 
@@ -58,6 +59,7 @@ package bmu_tb_pkg;
     `include "tests/individual/bmu_binv_test.sv"
     `include "tests/individual/bmu_sh2add_test.sv"
     `include "tests/individual/bmu_sub_test.sv"
+    `include "tests/individual/bmu_slt_test.sv"
 
   
 endpackage : bmu_tb_pkg

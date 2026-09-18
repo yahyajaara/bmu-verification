@@ -102,7 +102,6 @@ class bmu_sra_sequence extends bmu_base_sequence;
 
 
 
-
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Constrained-random valid SRA cases
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,25 +119,35 @@ class bmu_sra_sequence extends bmu_base_sequence;
 
 
 
-
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Approved CSR conflict case
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_sra_csr_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Approved CSR conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        send_sra_csr_conflict();
+
+
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_sra_ap_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
         `uvm_info(
             get_type_name(),
             $sformatf(
-                "SRA sequence finished: 8 directed, %0d random, 1 CSR conflict",
+                "SRA sequence finished: 8 directed, %0d random, 1 AP conflict, 1 CSR conflict",
                 rand_iterations
             ),
             UVM_MEDIUM
         )
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // END Approved CSR conflict case
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     endtask
 
@@ -318,6 +327,53 @@ class bmu_sra_sequence extends bmu_base_sequence;
     endtask
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // SRA + AP conflict case
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    task send_sra_ap_conflict();
+
+        bmu_sequence_item req;
+
+        req = bmu_sequence_item::type_id::create(
+            "sra_ap_conflict_req"
+        );
+
+        start_item(req);
+
+        req.valid_in = 1'b1;
+        // Clear all AP controls first
+        req.ap = '0;
+
+        // Valid SRA control
+        req.ap.sra = 1'b1;
+        // Add another unrelated operation -> invalid conflict
+        req.ap.lor = 1'b1;
+
+        // CSR disabled
+        req.csr_ren_in    = 1'b0;
+        req.csr_rddata_in = 32'h0000_0000;
+
+        // Known operands
+        req.a_in = 32'hF000_0000;
+        req.b_in = 32'h0000_0004;
+
+        finish_item(req);
+
+        `uvm_info(
+            get_type_name(),
+            $sformatf(
+                "SRA + AP CONFLICT: sra=1 lor=1 A=0x%08h B=0x%08h",
+                req.a_in,
+                req.b_in
+            ),
+            UVM_MEDIUM
+        )
+
+    endtask
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 endclass

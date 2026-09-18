@@ -118,23 +118,36 @@ class bmu_sh2add_sequence extends bmu_base_sequence;
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Approved CSR conflict case
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_sh2add_csr_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Approved CSR conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        send_sh2add_csr_conflict();
+
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_sh2add_ap_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
         `uvm_info(
             get_type_name(),
             $sformatf(
-                "SH2ADD sequence finished: 6 directed, %0d random, 1 no-ZBA invalid, 1 CSR conflict",
+                "SH2ADD sequence finished: 6 directed, %0d random, 1 no-ZBA invalid, 1 AP conflict, 1 CSR conflict",
                 rand_iterations
             ),
             UVM_MEDIUM
         )
 
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // END Approved CSR conflict case
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     endtask
+
+
+
 
 
 
@@ -358,6 +371,54 @@ class bmu_sh2add_sequence extends bmu_base_sequence;
     endtask
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // SH2ADD + AP conflict case
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    task send_sh2add_ap_conflict();
+
+        bmu_sequence_item req;
+
+        req = bmu_sequence_item::type_id::create(
+            "sh2add_ap_conflict_req"
+        );
+
+        start_item(req);
+
+        req.valid_in = 1'b1;
+        // Clear all AP controls first
+        req.ap = '0;
+
+        // Valid SH2ADD controls
+        req.ap.sh2add = 1'b1;
+        req.ap.zba    = 1'b1;
+        // Add another unrelated operation -> invalid conflict
+        req.ap.lor = 1'b1;
+
+        // CSR disabled
+        req.csr_ren_in    = 1'b0;
+        req.csr_rddata_in = 32'h0000_0000;
+
+        // Known operands
+        req.a_in = 32'h0000_0004;
+        req.b_in = 32'h0000_0007;
+
+        finish_item(req);
+
+        `uvm_info(
+            get_type_name(),
+            $sformatf(
+                "SH2ADD + AP CONFLICT: sh2add=1 zba=1 lor=1 A=0x%08h B=0x%08h",
+                req.a_in,
+                req.b_in
+            ),
+            UVM_MEDIUM
+        )
+
+    endtask
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 endclass

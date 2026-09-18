@@ -90,13 +90,11 @@ class bmu_orn_sequence extends bmu_base_sequence;
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Constrained-random valid ORN cases
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         repeat (rand_iterations) begin
 
             send_random_orn();
 
         end
-
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // END Constrained-random valid ORN cases
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,26 +104,32 @@ class bmu_orn_sequence extends bmu_base_sequence;
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Approved CSR conflict case (corner-case)
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_orn_csr_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Approved CSR conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        send_orn_csr_conflict();
+
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            send_orn_ap_conflict();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // END Invalid AP conflict case
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
         `uvm_info(
             get_type_name(),
             $sformatf(
-                "ORN sequence finished: 7 directed, %0d random, 1 CSR conflict",
+                "ORN sequence finished: 7 directed, %0d random, 1 AP conflict, 1 CSR conflict",
                 rand_iterations
             ),
             UVM_MEDIUM
         )
 
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // END Approved CSR conflict case
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     endtask
-
-
-
 
 
 
@@ -215,9 +219,7 @@ class bmu_orn_sequence extends bmu_base_sequence;
         if (!req.randomize() with {
 
             valid_in == 1'b1;
-
             csr_ren_in == 1'b0;
-
             csr_rddata_in == 32'h0000_0000;
 
             // Clear all BMU operation controls
@@ -240,7 +242,6 @@ class bmu_orn_sequence extends bmu_base_sequence;
         finish_item(req);
 
 
-
         `uvm_info(
             get_type_name(),
             $sformatf(
@@ -254,9 +255,6 @@ class bmu_orn_sequence extends bmu_base_sequence;
     endtask
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
 
 
 
@@ -313,6 +311,57 @@ class bmu_orn_sequence extends bmu_base_sequence;
     endtask
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ORN + AP conflict case
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    task send_orn_ap_conflict();
+
+        bmu_sequence_item req;
+
+        req = bmu_sequence_item::type_id::create(
+            "orn_ap_conflict_req"
+        );
+
+        start_item(req);
+
+        req.valid_in = 1'b1;
+        // Clear all AP controls first
+        req.ap = '0;
+
+        // Valid ORN controls
+        req.ap.lor = 1'b1;
+        req.ap.zbb = 1'b1;
+
+        // Add another unrelated operation -> invalid conflict
+        req.ap.srl = 1'b1;
+
+        // CSR disabled
+        req.csr_ren_in    = 1'b0;
+        req.csr_rddata_in = 32'h0000_0000;
+
+        // Known operands
+        req.a_in = 32'h0F0F_0F0F;
+        req.b_in = 32'hF0F0_F0F0;
+
+        finish_item(req);
+
+        `uvm_info(
+            get_type_name(),
+            $sformatf(
+                "ORN + AP CONFLICT: lor=1 zbb=1 srl=1 A=0x%08h B=0x%08h",
+                req.a_in,
+                req.b_in
+            ),
+            UVM_MEDIUM
+        )
+
+    endtask
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 endclass

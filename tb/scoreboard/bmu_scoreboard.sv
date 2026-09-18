@@ -112,7 +112,7 @@ class bmu_scoreboard extends uvm_scoreboard;
                             "\nA               = 0x%08h",
                             "\nB               = 0x%08h",
                             "\nValid           = %0b",
-                            "\nAP              = %p",
+                            "\nAP ACTIVE       = %s",
                             "\nCSR_REN         = %0b",
                             "\nCSR_RDDATA      = 0x%08h",
                             "\n",
@@ -129,7 +129,7 @@ class bmu_scoreboard extends uvm_scoreboard;
                         packet.a_in,
                         packet.b_in,
                         packet.valid_in,
-                        packet.ap,
+                        get_active_ap(packet.ap),
                         packet.csr_ren_in,
                         packet.csr_rddata_in,
 
@@ -211,6 +211,7 @@ class bmu_scoreboard extends uvm_scoreboard;
         if (ap.lor)       active_ap = {active_ap, "lor "};
         if (ap.lxor)      active_ap = {active_ap, "lxor "};
         if (ap.zbb)       active_ap = {active_ap, "zbb "};
+        if (ap.land)      active_ap = {active_ap, "land "};
 
 
         // Shift / Mask operations

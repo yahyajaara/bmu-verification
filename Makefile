@@ -149,6 +149,26 @@ sltu:
 	$(MAKE) run TEST=bmu_sltu_test
 
 
+# CTZ Test (make ctz)
+ctz:
+	$(MAKE) run TEST=bmu_ctz_test
+
+
+# CPOP Test (make cpop)
+cpop:
+	$(MAKE) run TEST=bmu_cpop_test
+
+
+# SEXT_B Test (make sext_b)
+sext_b:
+	$(MAKE) run TEST=bmu_sext_b_test
+
+
+# MAX Test (make max)
+max:
+	$(MAKE) run TEST=bmu_max_test
+
+
 # ============================================================
 
 
@@ -162,4 +182,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max clean

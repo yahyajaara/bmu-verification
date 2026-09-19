@@ -319,7 +319,7 @@ class bmu_reference_model extends uvm_object;
         //
         // csr_imm = 0 -> result = a_in
         // csr_imm = 1 -> result = b_in
-        else if (ap.csr_write && !csr_ren_in) begin
+        else if (ap.csr_write && !csr_ren_in ) begin
 
             if (!ap.csr_imm && ($countones(ap) == 1)) begin
                 expected_result = a_in;
@@ -331,8 +331,17 @@ class bmu_reference_model extends uvm_object;
                 expected_error  = 1'b0;
             end
 
+            // Error
+            else begin
+                expected_result = 32'b0;
+                expected_error  = 1'b1;
+            end
+
         end
         //************************************************************************
+
+
+
 
 
 
@@ -340,6 +349,7 @@ class bmu_reference_model extends uvm_object;
         //************************************************************************
         // Error detection for invalid control combinations
     
+
 
         //************************************************************************
         // ERROR 1 - CSR + BMU AP conflict
@@ -372,6 +382,16 @@ class bmu_reference_model extends uvm_object;
         // ap.zba = 1
         // Expected: result = 0, error = 1
         else if (ap.sub && ap.zba && !csr_ren_in && ($countones(ap) == 2)) begin
+            expected_result = 32'b0;
+            expected_error  = 1'b1;
+        end
+        //************************************************************************
+
+
+
+        //************************************************************************
+        // ERROR 4 - Invalid / conflicting AP control combination as like (ap.lor=1 and ap.lxor=1)
+        else if (!csr_ren_in && (ap != '0)) begin
             expected_result = 32'b0;
             expected_error  = 1'b1;
         end

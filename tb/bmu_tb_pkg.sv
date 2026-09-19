@@ -21,6 +21,15 @@ package bmu_tb_pkg;
      `include "sequences/bmu_ror_sequence.sv"
      `include "sequences/bmu_binv_sequence.sv"
      `include "sequences/bmu_sh2add_sequence.sv"
+     `include "sequences/bmu_sub_sequence.sv"
+     `include "sequences/bmu_slt_sequence.sv"
+     `include "sequences/bmu_sltu_sequence.sv"
+     `include "sequences/bmu_ctz_sequence.sv"
+     `include "sequences/bmu_cpop_sequence.sv"
+     `include "sequences/bmu_sext_b_sequence.sv"
+     `include "sequences/bmu_max_sequence.sv"
+     `include "sequences/bmu_pack_sequence.sv"
+     `include "sequences/bmu_grev_sequence.sv"
 
 
 
@@ -56,6 +65,16 @@ package bmu_tb_pkg;
     `include "tests/individual/bmu_ror_test.sv"
     `include "tests/individual/bmu_binv_test.sv"
     `include "tests/individual/bmu_sh2add_test.sv"
+    `include "tests/individual/bmu_sub_test.sv"
+    `include "tests/individual/bmu_slt_test.sv"
+    `include "tests/individual/bmu_sltu_test.sv"
+    `include "tests/individual/bmu_ctz_test.sv"
+    `include "tests/individual/bmu_cpop_test.sv"
+    `include "tests/individual/bmu_sext_b_test.sv"
+    `include "tests/individual/bmu_max_test.sv"
+    `include "tests/individual/bmu_pack_test.sv"
+    `include "tests/individual/bmu_grev_test.sv"
+
 
   
 endpackage : bmu_tb_pkg

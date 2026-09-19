@@ -189,6 +189,11 @@ csr_write:
 	$(MAKE) run TEST=bmu_csr_write_test
 
 
+# ERROR_HANDLING Test (make error)
+error:
+	$(MAKE) run TEST=bmu_error_handling_test
+
+
 
 # ============================================================
 
@@ -203,4 +208,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write error clean

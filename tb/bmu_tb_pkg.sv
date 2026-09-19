@@ -32,6 +32,7 @@ package bmu_tb_pkg;
      `include "sequences/bmu_grev_sequence.sv"
      `include "sequences/bmu_csr_read_sequence.sv"
      `include "sequences/bmu_csr_write_sequence.sv"
+     `include "sequences/bmu_error_handling_sequence.sv"
 
 
 
@@ -78,6 +79,7 @@ package bmu_tb_pkg;
     `include "tests/individual/bmu_grev_test.sv"
     `include "tests/individual/bmu_csr_read_test.sv"
     `include "tests/individual/bmu_csr_write_test.sv"
+    `include "tests/negative/bmu_error_handling_test.sv"
 
 
   

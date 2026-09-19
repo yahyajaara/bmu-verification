@@ -30,6 +30,8 @@ package bmu_tb_pkg;
      `include "sequences/bmu_max_sequence.sv"
      `include "sequences/bmu_pack_sequence.sv"
      `include "sequences/bmu_grev_sequence.sv"
+     `include "sequences/bmu_csr_read_sequence.sv"
+     `include "sequences/bmu_csr_write_sequence.sv"
 
 
 
@@ -74,6 +76,8 @@ package bmu_tb_pkg;
     `include "tests/individual/bmu_max_test.sv"
     `include "tests/individual/bmu_pack_test.sv"
     `include "tests/individual/bmu_grev_test.sv"
+    `include "tests/individual/bmu_csr_read_test.sv"
+    `include "tests/individual/bmu_csr_write_test.sv"
 
 
   

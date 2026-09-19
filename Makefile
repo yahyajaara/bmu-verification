@@ -179,6 +179,17 @@ grev:
 	$(MAKE) run TEST=bmu_grev_test
 
 
+# CSR_READ Test (make csr_read)
+csr_read:
+	$(MAKE) run TEST=bmu_csr_read_test
+
+
+# CSR_WRITE Test (make csr_write)
+csr_write:
+	$(MAKE) run TEST=bmu_csr_write_test
+
+
+
 # ============================================================
 
 
@@ -192,4 +203,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write clean

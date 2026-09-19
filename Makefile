@@ -169,6 +169,16 @@ max:
 	$(MAKE) run TEST=bmu_max_test
 
 
+# PACK Test (make pack)
+pack:
+	$(MAKE) run TEST=bmu_pack_test
+
+
+# GREV Test (make grev)
+grev:
+	$(MAKE) run TEST=bmu_grev_test
+
+
 # ============================================================
 
 
@@ -182,4 +192,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev clean

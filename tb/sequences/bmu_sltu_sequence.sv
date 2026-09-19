@@ -94,6 +94,16 @@ class bmu_sltu_sequence extends bmu_base_sequence;
         );
 
 
+        // Signed/unsigned divergence case
+        // Unsigned: 0xFFFF_FFFF = 4294967295
+        // 4294967295 < 1 -> false
+        send_sltu(
+            32'hFFFF_FFFF,
+            32'h0000_0001,
+            "SIGNED_UNSIGNED_DIVERGENCE"
+        );
+
+
         // ============================================================
         // END Directed SLTU cases
         // ============================================================
@@ -145,7 +155,7 @@ class bmu_sltu_sequence extends bmu_base_sequence;
         `uvm_info(
             get_type_name(),
             $sformatf(
-                "SLTU sequence finished: 7 directed, %0d random, 1 AP conflict, 1 CSR conflict",
+                "SLTU sequence finished: 8 directed, %0d random, 1 AP conflict, 1 CSR conflict",
                 rand_iterations
             ),
             UVM_MEDIUM

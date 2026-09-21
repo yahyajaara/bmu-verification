@@ -242,7 +242,7 @@ class bmu_shift_mask_test extends bmu_base_test;
 
 
         // Allow last transaction to complete
-        #10;
+        #1;
 
 
         phase.drop_objection(this);

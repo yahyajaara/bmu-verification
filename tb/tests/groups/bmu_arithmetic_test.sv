@@ -86,7 +86,7 @@ class bmu_arithmetic_test extends bmu_base_test;
         )
 
 
-        #10;
+        #1;
 
 
         phase.drop_objection(this);

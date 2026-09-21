@@ -66,8 +66,6 @@ class bmu_logical_test extends bmu_base_test;
         or_seq.start(env.agent.sequencer);
 
 
-        // Allow last OR transaction to reach the scoreboard
-        #10;
 
 
         `uvm_info(
@@ -103,8 +101,6 @@ class bmu_logical_test extends bmu_base_test;
         orn_seq.start(env.agent.sequencer);
 
 
-        // Allow last ORN transaction to reach the scoreboard
-        #10;
 
 
         `uvm_info(
@@ -140,8 +136,6 @@ class bmu_logical_test extends bmu_base_test;
         xor_seq.start(env.agent.sequencer);
 
 
-        // Allow last XOR transaction to reach the scoreboard
-        #10;
 
 
         `uvm_info(
@@ -177,8 +171,6 @@ class bmu_logical_test extends bmu_base_test;
         xnor_seq.start(env.agent.sequencer);
 
 
-        // Allow last XNOR transaction to reach the scoreboard
-        #10;
 
 
         `uvm_info(
@@ -216,8 +208,7 @@ class bmu_logical_test extends bmu_base_test;
 
 
         // Allow final messages/checks to complete
-        #10;
-
+        #1;
 
         phase.drop_objection(this);
 

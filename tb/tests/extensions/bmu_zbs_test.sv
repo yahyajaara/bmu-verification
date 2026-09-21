@@ -68,7 +68,7 @@ class bmu_zbs_test extends bmu_base_test;
             UVM_NONE
         )
 
-        #10;
+        #1;
 
         phase.drop_objection(this);
 

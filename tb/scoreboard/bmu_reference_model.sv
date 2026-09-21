@@ -305,7 +305,7 @@ class bmu_reference_model extends uvm_object;
 
             else begin
                 expected_result = 32'b0;
-                expected_error  = 1'b0;
+                expected_error  = 1'b1;
             end
 
         end

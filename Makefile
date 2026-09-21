@@ -179,7 +179,116 @@ grev:
 	$(MAKE) run TEST=bmu_grev_test
 
 
+# CSR_READ Test (make csr_read)
+csr_read:
+	$(MAKE) run TEST=bmu_csr_read_test
+
+
+# CSR_WRITE Test (make csr_write)
+csr_write:
+	$(MAKE) run TEST=bmu_csr_write_test
+
+
+# ERROR_HANDLING Test (make error)
+error:
+	$(MAKE) run TEST=bmu_error_handling_test
+
+
+# LOGICAL Group Test (make logical)
+logical:
+	$(MAKE) run TEST=bmu_logical_test
+
+
+# SHIFT_MASK Group Test (make shift_mask)
+shift_mask:
+	$(MAKE) run TEST=bmu_shift_mask_test
+
+
+# ARITHMETIC Group Test (make arithmetic)
+arithmetic:
+	$(MAKE) run TEST=bmu_arithmetic_test
+
+
+# BIT MANIPULATION Group Test
+bit_manipulation:
+	$(MAKE) run TEST=bmu_bit_manipulation_test
+
+
+# CSR Group Test
+csr:
+	$(MAKE) run TEST=bmu_csr_test
+
+
+# ZBB Extension Test
+zbb:
+	$(MAKE) run TEST=bmu_zbb_test
+
+
+# ZBS Extension Test
+zbs:
+	$(MAKE) run TEST=bmu_zbs_test
+
+
+# ZBA Extension Test
+zba:
+	$(MAKE) run TEST=bmu_zba_test
+
+
+# ZBP Extension Test
+zbp:
+	$(MAKE) run TEST=bmu_zbp_test
+
+
+# RESET Sanity Test
+reset:
+	$(MAKE) run TEST=bmu_reset_test
+
+
+# VALID_IN Sanity Test
+valid_in:
+	$(MAKE) run TEST=bmu_valid_in_test
+
+
 # ============================================================
+
+
+
+# ============================================================
+# REGRESSION
+# ============================================================
+
+regression:
+
+	$(MAKE) reset
+	$(MAKE) valid_in
+
+	$(MAKE) or
+	$(MAKE) orn
+	$(MAKE) xor
+	$(MAKE) xnor
+
+	$(MAKE) srl
+	$(MAKE) sra
+	$(MAKE) ror
+	$(MAKE) binv
+	$(MAKE) sh2add
+
+	$(MAKE) sub
+
+	$(MAKE) slt
+	$(MAKE) sltu
+	$(MAKE) ctz
+	$(MAKE) cpop
+	$(MAKE) sext_b
+	$(MAKE) max
+	$(MAKE) pack
+	$(MAKE) grev
+
+	$(MAKE) csr_read
+	$(MAKE) csr_write
+
+
+
 
 
 clean:
@@ -192,4 +301,4 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev clean
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write error logical shift_mask arithmetic bit_manipulation csr zbb zbs zba zbp reset valid_in regression clean

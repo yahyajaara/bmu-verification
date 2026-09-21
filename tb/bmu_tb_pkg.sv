@@ -30,6 +30,9 @@ package bmu_tb_pkg;
      `include "sequences/bmu_max_sequence.sv"
      `include "sequences/bmu_pack_sequence.sv"
      `include "sequences/bmu_grev_sequence.sv"
+     `include "sequences/bmu_csr_read_sequence.sv"
+     `include "sequences/bmu_csr_write_sequence.sv"
+     `include "sequences/bmu_error_handling_sequence.sv"
 
 
 
@@ -56,6 +59,7 @@ package bmu_tb_pkg;
 
      // Tests
     `include "tests/bmu_base_test.sv"
+
     `include "tests/individual/bmu_or_test.sv"
     `include "tests/individual/bmu_orn_test.sv"
     `include "tests/individual/bmu_xor_test.sv"
@@ -74,6 +78,28 @@ package bmu_tb_pkg;
     `include "tests/individual/bmu_max_test.sv"
     `include "tests/individual/bmu_pack_test.sv"
     `include "tests/individual/bmu_grev_test.sv"
+    `include "tests/individual/bmu_csr_read_test.sv"
+    `include "tests/individual/bmu_csr_write_test.sv"
+
+
+    `include "tests/negative/bmu_error_handling_test.sv"
+
+
+    `include "tests/groups/bmu_logical_test.sv"
+    `include "tests/groups/bmu_shift_mask_test.sv"
+    `include "tests/groups/bmu_arithmetic_test.sv"
+    `include "tests/groups/bmu_bit_manipulation_test.sv"
+    `include "tests/groups/bmu_csr_test.sv"
+
+
+    `include "tests/extensions/bmu_zbb_test.sv"
+    `include "tests/extensions/bmu_zbs_test.sv"
+    `include "tests/extensions/bmu_zba_test.sv"
+    `include "tests/extensions/bmu_zbp_test.sv"
+
+
+    `include "tests/sanity/bmu_reset_test.sv"
+    `include "tests/sanity/bmu_valid_in_test.sv"
 
 
   

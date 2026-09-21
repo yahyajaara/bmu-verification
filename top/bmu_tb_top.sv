@@ -53,6 +53,7 @@ module bmu_tb_top;
 
     initial begin
 
+        // Driver interface
         uvm_config_db #(virtual bmu_interface.drv)::set(
             null,
             "uvm_test_top.env.agent.driver",
@@ -60,11 +61,20 @@ module bmu_tb_top;
             bmu_if.drv
         );
 
+        // Monitor interface
         uvm_config_db #(virtual bmu_interface.mon)::set(
             null,
             "uvm_test_top.env.agent.monitor",
             "vif",
             bmu_if.mon
+        );
+
+        // Full/raw interface for sanity tests
+        uvm_config_db #(virtual bmu_interface)::set(
+            null,
+            "uvm_test_top",
+            "vif_raw",
+            bmu_if
         );
 
         run_test();

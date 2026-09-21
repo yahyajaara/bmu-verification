@@ -62,6 +62,7 @@ class bmu_error_handling_sequence extends bmu_base_sequence;
         send_sub_with_zba();
 
 
+
         // ==================================================
         // 4. Generic AP Conflicts
         // ==================================================
@@ -84,6 +85,23 @@ class bmu_error_handling_sequence extends bmu_base_sequence;
 
 
 
+        // ==================================================
+        // 5. Invalid GREV mode
+        // ==================================================
+
+        send_invalid_grev_mode(
+            32'd0,
+            "GREV_INVALID_MODE_0"
+        );
+
+        send_invalid_grev_mode(
+            32'd31,
+            "GREV_INVALID_MODE_31"
+        );
+
+
+
+
         `uvm_info(
             get_type_name(),
             "BMU ERROR HANDLING sequence finished",
@@ -91,6 +109,10 @@ class bmu_error_handling_sequence extends bmu_base_sequence;
         )
 
     endtask
+
+
+
+
 
 
 
@@ -296,6 +318,11 @@ class bmu_error_handling_sequence extends bmu_base_sequence;
 
 
 
+
+
+
+
+
     // ==========================================================
     // Generic AP Conflict
     // ==========================================================
@@ -371,6 +398,68 @@ class bmu_error_handling_sequence extends bmu_base_sequence;
         )
 
     endtask
+
+
+
+
+
+    // ==========================================================
+    // Invalid GREV mode
+    // ==========================================================
+
+    task send_invalid_grev_mode(
+        input logic [31:0] b_value,
+        input string       case_name
+    );
+
+        bmu_sequence_item req;
+
+        req = bmu_sequence_item::type_id::create(
+            $sformatf("req_%s", case_name)
+        );
+
+        start_item(req);
+
+        if (!req.randomize() with {
+
+            valid_in      == 1'b1;
+            csr_ren_in    == 1'b0;
+            csr_rddata_in == 32'h0000_0000;
+
+        }) begin
+
+            `uvm_fatal(
+                get_type_name(),
+                "Randomization failed in invalid GREV mode case"
+            )
+
+        end
+
+
+        req.ap = '0;
+
+        req.ap.grev = 1'b1;
+
+        req.b_in = b_value;
+
+        finish_item(req);
+
+        `uvm_info(
+            get_type_name(),
+            $sformatf(
+                "ERROR CASE [%s] A=0x%08h B=0x%08h MODE=%0d",
+                case_name,
+                req.a_in,
+                req.b_in,
+                req.b_in[4:0]
+            ),
+            UVM_MEDIUM
+        )
+
+    endtask
+
+
+
 
 
 endclass

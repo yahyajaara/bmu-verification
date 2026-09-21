@@ -64,7 +64,7 @@ class bmu_grev_sequence extends bmu_base_sequence;
 
         // ============================================================
         // Invalid GREV modes
-        // Expected: result = 0, error = 0
+        // Expected: result = 0, error = 1
         // ============================================================
 
         send_grev(

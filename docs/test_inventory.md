@@ -64,7 +64,7 @@ bmu_csr_write_test
 
 Additional tests:
 bmu_error_handling_test
-bmu_random_test
+
 
 
 ### Functional Group Tests

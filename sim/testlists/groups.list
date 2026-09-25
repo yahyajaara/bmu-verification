@@ -1,0 +1,5 @@
+bmu_logical_test
+bmu_shift_mask_test
+bmu_arithmetic_test
+bmu_bit_manipulation_test
+bmu_csr_test

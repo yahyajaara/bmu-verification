@@ -1,296 +1,220 @@
-
-
 # ============================================================
 # BMU Verification Makefile
 # ============================================================
 
 
-
-# Simulator
+# Tools
 XRUN := xrun
 
 # ============================================================
 
-# Project directories
+# Directories
 RTL_DIR ?= ../BMU_RTL
-TB_DIR := tb
+TB_DIR  := tb
 
-# ============================================================
+SINGLE_RUNNER     := ./sim/scripts/run_test.sh
+REGRESSION_RUNNER := ./sim/scripts/run_regression.sh
 
-# RTL files
-RTL_FILES := \
-	$(RTL_DIR)/rtl_defines.sv \
-	$(RTL_DIR)/rtl_pdef.sv \
-	$(RTL_DIR)/rtl_def.sv \
-	$(RTL_DIR)/rtl_lib.sv \
-	$(RTL_DIR)/Bit_Manipulation_Unit.sv
 
-# ============================================================
-
-# Testbench files
-TB_FILES := \
-	tb/interface/bmu_interface.sv \
-	tb/bmu_tb_pkg.sv \
-	top/bmu_tb_top.sv
-
-# ============================================================
-
-# Xcelium options
-XRUN_OPTS := \
-	-64bit \
-	-sv \
-	-uvm \
-	-access +rwc \
-	-timescale 1ns/1ps \
-	-incdir $(RTL_DIR) \
-	-incdir $(TB_DIR) \
-	-top bmu_tb_top
-
-# ============================================================
-
-# Default values
+# Default Values
 TEST ?= bmu_base_test
-
 RAND_ITERS ?= 10
-
 SEED ?= 1
 
 # ============================================================
 
-# Generic simulation command
+
+# Generic Direct Xcelium Run
 run:
 	@echo ""
 	@echo "============================================================"
-	@echo "                 BMU VERIFICATION RUN"
+	@echo " BMU VERIFICATION RUN"
 	@echo "============================================================"
-	@echo " TEST NAME      : $(TEST)"
-	@echo " SEED           : $(SEED)"
-	@echo " RANDOM ITERS   : $(RAND_ITERS)"
+	@echo " TEST NAME     : $(TEST)"
+	@echo " SEED          : $(SEED)"
+	@echo " RANDOM ITERS  : $(RAND_ITERS)"
 	@echo "============================================================"
 	@echo ""
 
-	$(XRUN) $(XRUN_OPTS) \
+	$(XRUN) \
+		-64bit \
+		-sv \
+		-uvm \
+		-access +rwc \
+		-timescale 1ns/1ps \
+		-coverage all \
+		-covoverwrite \
+		-incdir $(RTL_DIR) \
+		-incdir $(TB_DIR) \
+		-incdir $(RTL_DIR)/library \
+		-f sim/filelists/rtl.f \
+		-f sim/filelists/tb.f \
+		-top bmu_tb_top \
 		-svseed $(SEED) \
-		$(RTL_FILES) \
-		$(TB_FILES) \
 		+UVM_TESTNAME=$(TEST) \
 		+BMU_RAND_ITERS=$(RAND_ITERS)
 
-# ============================================================
-
-
 
 # ============================================================
-# Test shortcuts
-# ============================================================
-
-# Base Test(make base)
-base: 
-	$(MAKE) run TEST=bmu_base_test
 
 
-# OR Test (make or)
-or: 
-	$(MAKE) run TEST=bmu_or_test
+# Single Operation Tests
+base:
+	@$(SINGLE_RUNNER) bmu_base_test
 
 
-# ORN Test (make orn)
+or:
+	@$(SINGLE_RUNNER) bmu_or_test
+
+
 orn:
-	$(MAKE) run TEST=bmu_orn_test
+	@$(SINGLE_RUNNER) bmu_orn_test
 
 
-# XOR Test (make xor)
 xor:
-	$(MAKE) run TEST=bmu_xor_test
+	@$(SINGLE_RUNNER) bmu_xor_test
 
 
-# XNOR Test (make xnor)
 xnor:
-	$(MAKE) run TEST=bmu_xnor_test
+	@$(SINGLE_RUNNER) bmu_xnor_test
 
 
-# SRL Test (make srl)
 srl:
-	$(MAKE) run TEST=bmu_srl_test
+	@$(SINGLE_RUNNER) bmu_srl_test
 
 
-# SRA Test (make sra)
 sra:
-	$(MAKE) run TEST=bmu_sra_test
+	@$(SINGLE_RUNNER) bmu_sra_test
 
 
-# ROR Test (make ror)
 ror:
-	$(MAKE) run TEST=bmu_ror_test
+	@$(SINGLE_RUNNER) bmu_ror_test
 
 
-# BINV Test (make binv)
 binv:
-	$(MAKE) run TEST=bmu_binv_test
+	@$(SINGLE_RUNNER) bmu_binv_test
 
 
-# SH2ADD Test (make sh2add)
 sh2add:
-	$(MAKE) run TEST=bmu_sh2add_test
+	@$(SINGLE_RUNNER) bmu_sh2add_test
 
 
-# SUB Test (make sub)
 sub:
-	$(MAKE) run TEST=bmu_sub_test
+	@$(SINGLE_RUNNER) bmu_sub_test
 
 
-# SLT Test (make slt)
 slt:
-	$(MAKE) run TEST=bmu_slt_test
+	@$(SINGLE_RUNNER) bmu_slt_test
 
 
-# SLTU Test (make sltu)
 sltu:
-	$(MAKE) run TEST=bmu_sltu_test
+	@$(SINGLE_RUNNER) bmu_sltu_test
 
 
-# CTZ Test (make ctz)
 ctz:
-	$(MAKE) run TEST=bmu_ctz_test
+	@$(SINGLE_RUNNER) bmu_ctz_test
 
 
-# CPOP Test (make cpop)
 cpop:
-	$(MAKE) run TEST=bmu_cpop_test
+	@$(SINGLE_RUNNER) bmu_cpop_test
 
 
-# SEXT_B Test (make sext_b)
 sext_b:
-	$(MAKE) run TEST=bmu_sext_b_test
+	@$(SINGLE_RUNNER) bmu_sext_b_test
 
 
-# MAX Test (make max)
 max:
-	$(MAKE) run TEST=bmu_max_test
+	@$(SINGLE_RUNNER) bmu_max_test
 
 
-# PACK Test (make pack)
 pack:
-	$(MAKE) run TEST=bmu_pack_test
+	@$(SINGLE_RUNNER) bmu_pack_test
 
 
-# GREV Test (make grev)
 grev:
-	$(MAKE) run TEST=bmu_grev_test
+	@$(SINGLE_RUNNER) bmu_grev_test
 
 
-# CSR_READ Test (make csr_read)
 csr_read:
-	$(MAKE) run TEST=bmu_csr_read_test
+	@$(SINGLE_RUNNER) bmu_csr_read_test
 
 
-# CSR_WRITE Test (make csr_write)
 csr_write:
-	$(MAKE) run TEST=bmu_csr_write_test
+	@$(SINGLE_RUNNER) bmu_csr_write_test
 
 
-# ERROR_HANDLING Test (make error)
+# ============================================================
+
+
+# Group Tests
 error:
-	$(MAKE) run TEST=bmu_error_handling_test
+	@$(MAKE) run TEST=bmu_error_handling_test
 
 
-# LOGICAL Group Test (make logical)
 logical:
-	$(MAKE) run TEST=bmu_logical_test
+	@$(MAKE) run TEST=bmu_logical_test
 
 
-# SHIFT_MASK Group Test (make shift_mask)
 shift_mask:
-	$(MAKE) run TEST=bmu_shift_mask_test
+	@$(MAKE) run TEST=bmu_shift_mask_test
 
 
-# ARITHMETIC Group Test (make arithmetic)
 arithmetic:
-	$(MAKE) run TEST=bmu_arithmetic_test
+	@$(MAKE) run TEST=bmu_arithmetic_test
 
 
-# BIT MANIPULATION Group Test
 bit_manipulation:
-	$(MAKE) run TEST=bmu_bit_manipulation_test
+	@$(MAKE) run TEST=bmu_bit_manipulation_test
 
 
-# CSR Group Test
 csr:
-	$(MAKE) run TEST=bmu_csr_test
+	@$(MAKE) run TEST=bmu_csr_test
 
 
-# ZBB Extension Test
+# ============================================================
+
+
+# Extension Tests
 zbb:
-	$(MAKE) run TEST=bmu_zbb_test
+	@$(MAKE) run TEST=bmu_zbb_test
 
 
-# ZBS Extension Test
 zbs:
-	$(MAKE) run TEST=bmu_zbs_test
+	@$(MAKE) run TEST=bmu_zbs_test
 
 
-# ZBA Extension Test
 zba:
-	$(MAKE) run TEST=bmu_zba_test
+	@$(MAKE) run TEST=bmu_zba_test
 
 
-# ZBP Extension Test
 zbp:
-	$(MAKE) run TEST=bmu_zbp_test
+	@$(MAKE) run TEST=bmu_zbp_test
 
 
-# RESET Sanity Test
+# ============================================================
+
+
+# Sanity Tests
 reset:
-	$(MAKE) run TEST=bmu_reset_test
+	@$(MAKE) run TEST=bmu_reset_test
 
 
-# VALID_IN Sanity Test
 valid_in:
-	$(MAKE) run TEST=bmu_valid_in_test
+	@$(MAKE) run TEST=bmu_valid_in_test
 
 
 # ============================================================
 
 
-
-# ============================================================
-# REGRESSION
-# ============================================================
-
+# Regression
 regression:
-
-	$(MAKE) reset
-	$(MAKE) valid_in
-
-	$(MAKE) or
-	$(MAKE) orn
-	$(MAKE) xor
-	$(MAKE) xnor
-
-	$(MAKE) srl
-	$(MAKE) sra
-	$(MAKE) ror
-	$(MAKE) binv
-	$(MAKE) sh2add
-
-	$(MAKE) sub
-
-	$(MAKE) slt
-	$(MAKE) sltu
-	$(MAKE) ctz
-	$(MAKE) cpop
-	$(MAKE) sext_b
-	$(MAKE) max
-	$(MAKE) pack
-	$(MAKE) grev
-
-	$(MAKE) csr_read
-	$(MAKE) csr_write
+	@$(REGRESSION_RUNNER)
 
 
+# ============================================================
 
 
-
+# Clean
 clean:
 	rm -rf xcelium.d
 	rm -rf INCA_libs
@@ -301,4 +225,68 @@ clean:
 	rm -f xrun.key
 
 
-.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write error logical shift_mask arithmetic bit_manipulation csr zbb zbs zba zbp reset valid_in regression clean
+# ============================================================
+
+
+# Help
+help:
+	@echo ""
+	@echo "============================================================"
+	@echo " BMU Verification Makefile"
+	@echo "============================================================"
+	@echo ""
+	@echo "Individual operation tests:"
+	@echo "  make or"
+	@echo "  make orn"
+	@echo "  make xor"
+	@echo "  make xnor"
+	@echo "  make srl"
+	@echo "  make sra"
+	@echo "  make ror"
+	@echo "  make binv"
+	@echo "  make sh2add"
+	@echo "  make sub"
+	@echo "  make slt"
+	@echo "  make sltu"
+	@echo "  make ctz"
+	@echo "  make cpop"
+	@echo "  make sext_b"
+	@echo "  make max"
+	@echo "  make pack"
+	@echo "  make grev"
+	@echo "  make csr_read"
+	@echo "  make csr_write"
+	@echo ""
+	@echo "Other tests:"
+	@echo "  make error"
+	@echo "  make logical"
+	@echo "  make shift_mask"
+	@echo "  make arithmetic"
+	@echo "  make bit_manipulation"
+	@echo "  make csr"
+	@echo ""
+	@echo "Extension tests:"
+	@echo "  make zbb"
+	@echo "  make zbs"
+	@echo "  make zba"
+	@echo "  make zbp"
+	@echo ""
+	@echo "Sanity tests:"
+	@echo "  make reset"
+	@echo "  make valid_in"
+	@echo ""
+	@echo "Regression:"
+	@echo "  make regression"
+	@echo ""
+	@echo "Other:"
+	@echo "  make clean"
+	@echo "  make help"
+	@echo ""
+	@echo "============================================================"
+
+
+# ============================================================
+
+
+# Phony Targets
+.PHONY: run base or orn xor xnor srl sra ror binv sh2add sub slt sltu ctz cpop sext_b max pack grev csr_read csr_write error logical shift_mask arithmetic bit_manipulation csr zbb zbs zba zbp reset valid_in regression clean help

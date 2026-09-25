@@ -95,7 +95,7 @@ The current RTL configuration is:
   - ROR, PACK, and GREV are still required by the verification plan.
   - According to the specification, these operations belong to ZBP.
   - The RTL appears to allow these operations through shared extension gating even when ZBP is disabled.
-  - This will be treated as a potential RTL discrepancy and checked later by simulation.
+  - This was treated as a potential RTL discrepancy during verification.
 
 - `BITMANIP_ZBC = 1`
   - ZBC is enabled in the RTL configuration.

@@ -21,8 +21,8 @@ Detailed scope information is available in:
 
 ## Simulator
 
-Cadence Xcelium will be used for compilation and simulation.
+Cadence Xcelium is used for compilation and simulation.
 
 ## Status
 
-Project setup and verification architecture are currently in progress.
+The UVM verification environment and verification architecture are implemented.

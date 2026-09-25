@@ -4,8 +4,7 @@ UVM verification environment for the 32-bit RISC-V Bit Manipulation Unit.
 
 ## Project Scope
 
-The project verifies 20 required BMU operations and CSR behaviors defined
-by the BMU Verification Plan.
+The project verifies 20 required BMU operations and CSR behaviors defined by the BMU Verification Plan.
 
 Detailed scope information is available in:
 
@@ -15,7 +14,7 @@ Detailed scope information is available in:
 
 - `tb/` - UVM testbench files
 - `top/` - testbench top
-- `sim/` - simulation files, filelists, and testlists
+- `sim/` - simulation files, filelists, scripts, and testlists
 - `docs/` - project documentation
 - `reports/` - verification results and summaries
 
@@ -23,6 +22,6 @@ Detailed scope information is available in:
 
 Cadence Xcelium is used for compilation and simulation.
 
-## Status
+## Verification Status
 
-The UVM verification environment and verification architecture are implemented.
+The UVM verification environment, regression infrastructure, and functional coverage model are implemented.

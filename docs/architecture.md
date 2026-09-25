@@ -69,7 +69,7 @@ unrelated control fields are not accidentally enabled.
 
 `error` is combinational, so it should be sampled while the request is still stable.
 
-`rst_l` is active low. Reset behavior will be checked later using simulation waveforms.
+`rst_l` is active low. Reset behavior was checked during verification.
 
 ## UVM Architecture
 
@@ -90,4 +90,4 @@ bmu_environment
     |    |
     |    +-- bmu_reference_model
     |
-    +-- bmu_subscriber
+    +-- bmu_coverage_subscriber

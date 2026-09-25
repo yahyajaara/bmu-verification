@@ -4,6 +4,7 @@ class bmu_environment extends uvm_env;
 
     bmu_agent      agent;
     bmu_scoreboard scoreboard;
+    bmu_coverage_subscriber  subscriber;
 
 
     function new(string name = "bmu_environment",uvm_component parent = null);
@@ -20,6 +21,8 @@ class bmu_environment extends uvm_env;
 
         scoreboard = bmu_scoreboard::type_id::create("scoreboard", this);
 
+        subscriber = bmu_coverage_subscriber::type_id::create("subscriber",this);
+
     endfunction
 
 
@@ -34,9 +37,9 @@ class bmu_environment extends uvm_env;
         );
 
         // Monitor -> Subscriber
-        /*agent.monitor.port.connect(
+        agent.monitor.port.connect(
             subscriber.analysis_export
-        );*/
+        );
 
     endfunction
 

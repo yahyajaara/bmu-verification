@@ -45,27 +45,35 @@ module bmu_tb_top;
         bmu_if.rst_l = 1'b0;
 
         // Keep reset active across clock edges
-        repeat (2) @(posedge clk);
+        @(posedge clk);
 
-        // Deassert reset safely away from posedge
-        @(negedge clk);
         bmu_if.rst_l = 1'b1;
     end
 
 
     initial begin
 
+        // Driver interface
         uvm_config_db #(virtual bmu_interface.drv)::set(
             null,
-            "uvm_test_top.*",
+            "uvm_test_top.env.agent.driver",
             "vif",
-            bmu_if
+            bmu_if.drv
         );
 
+        // Monitor interface
         uvm_config_db #(virtual bmu_interface.mon)::set(
             null,
-            "uvm_test_top.*",
+            "uvm_test_top.env.agent.monitor",
             "vif",
+            bmu_if.mon
+        );
+
+        // Full/raw interface for sanity tests
+        uvm_config_db #(virtual bmu_interface)::set(
+            null,
+            "uvm_test_top",
+            "vif_raw",
             bmu_if
         );
 

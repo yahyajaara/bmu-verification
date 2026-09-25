@@ -31,6 +31,8 @@ interface bmu_interface(input logic clk);
         output a_in;
         output b_in;
 
+        input rst_l;
+
     endclocking
 
 

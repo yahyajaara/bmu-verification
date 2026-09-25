@@ -48,6 +48,7 @@ package bmu_tb_pkg;
      // Checking / Coverage
     `include "scoreboard/bmu_reference_model.sv"
     `include "scoreboard/bmu_scoreboard.sv"
+    `include "coverage/bmu_coverage_subscriber.sv"
 
 
 
